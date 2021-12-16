@@ -90,8 +90,7 @@ class _TonieAPIBase():
         # add only new items to dict
         for hh in r:
             if hh['id'] not in storedict.keys():
-                storedict[hh['id']] = itemclass(
-                    self.API_URL, self.session, hh)
+                storedict[hh['id']] = itemclass(self.API_URL, self.session, hh)
         # check if items have been removed on the server
         if len(storedict) > len(r):
             for hh in storedict.keys():
@@ -204,7 +203,7 @@ class _Household(_TonieAPIBase):
 
     def __init__(self, API_URL, session, hhproperties):
         self.session = session
-        # self.properties = hhproperties
+        self._properties = hhproperties
         self.id = hhproperties['id']
         self.name = hhproperties['name']
         self.API_URL = f'{API_URL}/households/{self.id}'
@@ -263,7 +262,7 @@ class _CreativeTonie():
     """
     def __init__(self, API_URL, session, ctproperties):
         self.session = session
-        # self._properties = ctproperties
+        self._properties = ctproperties
         self.id = ctproperties['id']
         self.name = ctproperties['name']
         self.API_URL = f'{API_URL}/creativetonies/{self.id}'
