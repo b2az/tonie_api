@@ -359,7 +359,7 @@ class _CreativeTonie():
         self._patch_chapters(chapters)
         return chapters
 
-    def upload(self, file, title):
+    def upload(self, filebytes, title):
         """Upload file to toniecloud and append as new
         chapter to tonie.
 
@@ -380,7 +380,7 @@ class _CreativeTonie():
         try:
             r = requests.post(url, files={
                 **fields,
-                'file': (fields['key'], open(file, 'rb'))
+                'file': (fields['key'], filebytes)
                 })
             r.raise_for_status()
         except HTTPError as http_err:
@@ -390,7 +390,7 @@ class _CreativeTonie():
         #     log.error(f'Other error occured: {err}')
         #     return
         contentid = r.headers['etag']
-        log.info(f'File {file} uploaded to server with ID {fields["key"]}.')
+        log.info(f'File uploaded to server with ID {fields["key"]}.')
         # add chapter to creative tonie
         contentid = self.add_chapter(fileid, title)
         return contentid
